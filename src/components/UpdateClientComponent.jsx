@@ -18,9 +18,11 @@ class UpdateClientComponent extends Component {
         this.updateClient = this.updateClient.bind(this);
     }
 
+    /*Se dispara al renderizar el component: Se hace en automatico */
     componentDidMount(){
         ClientService.getClientById(this.state.id).then((res) => {
             let cliente = res.data;
+            //console.log(res.data);
             this.setState({
                 nombre: cliente.nombre, 
                 primerApellido: cliente.primerApellido, 
@@ -33,15 +35,12 @@ class UpdateClientComponent extends Component {
         e.preventDefault();
         let cliente = {nombre: this.state.nombre, primerApellido: this.state.primerApellido, segundoApellido: this.state.segundoApellido, rfc: this.state.rfc};
         console.log('Cliente => ' + JSON.stringify(cliente));
+        console.log('ID => ' + JSON.stringify(this.state.id));
 
-        // ClientService.updateClient(cliente,this.state.id).then(res => {
-        //     this.props.history.push('/show');
-        // });
+        ClientService.updateClient(cliente,this.state.id).then(res => {
+            this.props.history.push('/show');
+        });
     }
-
-    changeIdHandler = (ev) => {
-        this.setState({id: ev.target.value});
-    }    
 
     changeNameHandler = (ev) => {
         this.setState({nombre: ev.target.value});
