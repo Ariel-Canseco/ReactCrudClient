@@ -44,7 +44,7 @@ function App() {
                 <Route path="/" exact component = {ClientComponent}></Route>
                 <Route path="/show" component = {ClientComponent}></Route>
                 <Route path="/add-client" component = {CreateClientComponent}></Route>
-                <Route path="/update-client/:id" component = {UpdateClientComponent}></Route>
+                <Route path="/update-client/:rfc" component = {UpdateClientComponent}></Route>
                   {/* <ClientComponent/> */}
               </Switch>
             </div>

@@ -5,57 +5,95 @@ class UpdateClientComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: this.props.match.params.id,
+            // id: this.props.match.params.id,
+            // nombre: '',
+            // primerApellido: '',
+            // segundoApellido: '',
+            // rfc: ''
+            rfc: this.props.match.params.rfc,
+            id: '',
             nombre: '',
-            primerApellido: '',
-            segundoApellido: '',
-            rfc: ''
+            apellidos: '',
+            direccion: '',
+            email: '',
+            telefono: '',
+            estatus: '',
+            pin: ''
         }
+        this.changeIdHandler = this.changeIdHandler.bind(this);
         this.changeNameHandler = this.changeNameHandler.bind(this);
-        this.changeApepaHandler = this.changeApepaHandler.bind(this);
-        this.changeApemaHandler = this.changeApemaHandler.bind(this);
-        this.changeRFCHandler = this.changeRFCHandler.bind(this);
+        this.changeApellidosHandler = this.changeApellidosHandler.bind(this);
+        this.changeDireccionHandler = this.changeDireccionHandler.bind(this);
+        this.changeEmailHandler = this.changeEmailHandler.bind(this);
+        this.changeTelefonoHandler = this.changeTelefonoHandler.bind(this);
+        this.changeEstatusHandler = this.changeEstatusHandler.bind(this);
+        this.changePinHandler = this.changePinHandler.bind(this);
         this.updateClient = this.updateClient.bind(this);
     }
 
     /*Se dispara al renderizar el component: Se hace en automatico */
     componentDidMount(){
-        ClientService.getClientById(this.state.id).then((res) => {
-            let cliente = res.data;
-            //console.log(res.data);
+        ClientService.getClientByRfc(this.state.rfc).then((res) => {
+            let cliente = res; //res.data
+            console.log(res);
             this.setState({
-                nombre: cliente.nombre, 
-                primerApellido: cliente.primerApellido, 
-                segundoApellido: cliente.segundoApellido, 
-                rfc: cliente.rfc});
+                id: cliente.data.id,
+                nombre: cliente.data.nombre, 
+                apellidos: cliente.data.apellidos, 
+                direccion: cliente.data.direccion, 
+                email: cliente.data.correo_electronico,
+                telefono: cliente.data.no_telefono,
+                estatus: cliente.data.estatus,
+                pin: cliente.data.pin
+            });
         });
     }
 
     updateClient = (e) => {
-        e.preventDefault();
-        let cliente = {nombre: this.state.nombre, primerApellido: this.state.primerApellido, segundoApellido: this.state.segundoApellido, rfc: this.state.rfc};
+        e.preventDefault(); /*Before was email and telefono */
+        let cliente = {id:this.state.id, nombre: this.state.nombre, apellidos: this.state.apellidos, direccion: this.state.direccion, correo_electronico: this.state.email, no_telefono: this.state.telefono, estatus: this.state.estatus, pin: this.state.pin};
         console.log('Cliente => ' + JSON.stringify(cliente));
-        console.log('ID => ' + JSON.stringify(this.state.id));
+        console.log('RFC => ' + JSON.stringify(this.state.rfc));
 
-        ClientService.updateClient(cliente,this.state.id).then(res => {
+        ClientService.updateClient(cliente,this.state.rfc).then(res => {
             this.props.history.push('/show');
         });
+    }
+
+    changeRfcHandler = (ev) => {
+        this.setState({rfc: ev.target.value});
+    }
+
+    changeIdHandler = (ev) => {
+        this.setState({id: ev.target.value});
     }
 
     changeNameHandler = (ev) => {
         this.setState({nombre: ev.target.value});
     }
 
-    changeApepaHandler = (ev) => {
-        this.setState({primerApellido: ev.target.value});
+    changeApellidosHandler = (ev) => {
+        this.setState({apellidos: ev.target.value});
     }
 
-    changeApemaHandler = (ev) => {
-        this.setState({segundoApellido: ev.target.value});
+    changeDireccionHandler = (ev) => {
+        this.setState({direccion: ev.target.value});
     }
 
-    changeRFCHandler = (ev) => {
-        this.setState({rfc: ev.target.value});
+    changeEmailHandler = (ev) => {
+        this.setState({email: ev.target.value});
+    }
+
+    changeTelefonoHandler = (ev) => {
+        this.setState({telefono: ev.target.value});
+    }
+    
+    changeEstatusHandler = (ev) => {
+        this.setState({estatus: ev.target.value});
+    }
+
+    changePinHandler = (ev) => {
+        this.setState({pin: ev.target.value});
     }
 
     cancel(){
@@ -68,28 +106,44 @@ class UpdateClientComponent extends Component {
                 <div className="container">
                     <div className="row">
                         <div className="card col-md-6 offset-md-3 offset-md-3">
-                            <h3 className="text-center">ACTUALIZAR CLIENTE</h3>
+                            <h3 className="text-center">EDITAR CLIENTE</h3>
                             <div className="card-body">
                                 <form>
-                                    <div className="form-group">
+                                <div className="form-group">
+                                        <label>RFC: </label>
+                                        <input placeholder="RFC" name="rfc" className="form-control" value={this.state.rfc}type="text" onChange={this.changeRfcHandler}></input>
+                                    </div>
+                                <div className="form-group">
                                         <label>ID: </label>
-                                        <input placeholder="ID" name="id" className="form-control" value={this.state.id}type="text" onChange={this.changeNameHandler}></input>
+                                        <input placeholder="ID" name="id" className="form-control" value={this.state.id}type="text" onChange={this.changeIdHandler}></input>
                                     </div>
                                     <div className="form-group">
                                         <label>Nombre: </label>
                                         <input placeholder="Nombre" name="nombre" className="form-control" value={this.state.nombre}type="text" onChange={this.changeNameHandler}></input>
                                     </div>
                                     <div className="form-group">
-                                        <label>Apellido Paterno: </label>
-                                        <input placeholder="Apellido Paterno" name="apepa" className="form-control" value={this.state.primerApellido}type="text" onChange={this.changeApepaHandler}></input>
+                                        <label>Apellidos: </label>
+                                        <input placeholder="Apellidos" name="apellidos" className="form-control" value={this.state.apellidos}type="text" onChange={this.changeApellidosHandler}></input>
                                     </div>
                                     <div className="form-group">
-                                        <label>Apellido Materno: </label>
-                                        <input placeholder="Apellido Materno" name="apema" className="form-control" value={this.state.segundoApellido}type="text" onChange={this.changeApemaHandler}></input>
+                                        <label>Direccion: </label>
+                                        <input placeholder="Direccion" name="direccion" className="form-control" value={this.state.direccion}type="text" onChange={this.changeDireccionHandler}></input>
                                     </div>
                                     <div className="form-group">
-                                        <label>RFC: </label>
-                                        <input placeholder="RFC" name="rfc" className="form-control" value={this.state.rfc}type="text" onChange={this.changeRFCHandler}></input>
+                                        <label>Correo Electrónico: </label>
+                                        <input placeholder="Email" name="email" className="form-control" value={this.state.email}type="text" onChange={this.changeEmailHandler}></input>
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Teléfono: </label>
+                                        <input placeholder="Teléfono" name="telefono" className="form-control" value={this.state.telefono}type="text" onChange={this.changeTelefonoHandler}></input>
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Estatus: </label>
+                                        <input placeholder="Estatus" name="estatus" className="form-control" value={this.state.estatus}type="text" onChange={this.changeEstatusHandler}></input>
+                                    </div>
+                                    <div className="form-group">
+                                        <label>PIN: </label>
+                                        <input placeholder="PIN" name="pin" className="form-control" value={this.state.pin}type="text" onChange={this.changePinHandler}></input>
                                     </div>
                                     <br></br>
                                     <button className="btn btn-success" onClick={this.updateClient}>Guardar</button>

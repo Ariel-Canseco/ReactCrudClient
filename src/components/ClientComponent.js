@@ -15,20 +15,20 @@ class ClientComponent extends React.Component {
         this.deleteClient = this.deleteClient.bind(this);
     }
 
-    deleteClient(idCliente){
+    deleteClient(rfc){
         // rest api
-        ClientService.delete(idCliente).then(res => {
-            this.setState({client: this.state.client.filter(client => client.idCliente !== idCliente)});
+        ClientService.delete(rfc).then(res => {
+            this.setState({client: this.state.client.filter(client => client.rfc !== rfc)});
         });
     }
 
-    editClient(idCliente){
-        this.props.history.push(`/update-client/${idCliente}`);
+    editClient(rfc){
+        this.props.history.push(`/update-client/${rfc}`);
     }
 
     componentDidMount(){
         ClientService.show().then((res) => {
-            this.setState({client: res});
+            this.setState({client: res.data});
         });
     }
 
@@ -46,27 +46,47 @@ class ClientComponent extends React.Component {
                 <table className="table table-striped">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            {/* <th>ID</th>
                             <th>Nombre</th>
                             <th>Apellido Paterno</th>
                             <th>Apellido Materno</th>
+                            <th>RFC</th> */}
                             <th>RFC</th>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Apellidos</th>
+                            <th>Direccion</th>
+                            <th>Correo Electrónico</th>
+                            <th>Teléfono</th>
+                            <th>Estatus</th>
+                            <th>Pin</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         { 
-                            this.state.client.map(
+                            this.state.client.map( 
                                 client => /*Poner los atributos de nuestro servicio*/
-                                <tr key = {client.idCliente}>
-                                    <td>{client.idCliente}</td>
-                                    <td>{client.nombre}</td>
-                                    <td>{client.primerApellido}</td>
-                                    <td>{client.segundoApellido}</td>
-                                    <td>{client.rfc}</td>
-                                    <td>
-                                        <button onClick={()=> this.editClient(client.idCliente)} className="btn btn-info"> Actualizar</button>
-                                        <button style={{marginLeft: "10px"}} onClick={()=> this.deleteClient(client.idCliente)} className="btn btn-danger"> Eliminar</button>
+                                // <tr key = {client.idCliente}>
+                                //     <td>{client.idCliente}</td>
+                                //     <td>{client.nombre}</td>
+                                //     <td>{client.primerApellido}</td>
+                                //     <td>{client.segundoApellido}</td>
+                                //     <td>{client.rfc}</td>
+                                //     <td>
+                                <tr key = {client.rfc}>
+                                        <td>{client.rfc}</td>
+                                        <td>{client.id}</td>
+                                        <td>{client.nombre}</td>
+                                        <td>{client.apellidos}</td>
+                                        <td>{client.direccion}</td>
+                                        <td>{client.correo_electronico}</td>
+                                        <td>{client.no_telefono}</td>
+                                        <td>{client.estatus}</td>
+                                        <td>{client.pin}</td>
+                                        <td>
+                                        <button onClick={()=> this.editClient(client.rfc)} className="btn btn-info"> Actualizar</button>
+                                        <button style={{marginLeft: "10px"}} onClick={()=> this.deleteClient(client.rfc)} className="btn btn-danger"> Eliminar</button>
                                     </td>
                                 </tr>
                             )
