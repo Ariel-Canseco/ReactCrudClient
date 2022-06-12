@@ -12,7 +12,7 @@ class CreateClientComponent extends Component {
             // segundoApellido: '',
             // rfc: ''
             rfc: '',
-            id: '',
+            // id: '',
             nombre: '',
             apellidos: '',
             direccion: '',
@@ -22,7 +22,7 @@ class CreateClientComponent extends Component {
             pin: ''
         }
         this.changeRfcHandler = this.changeRfcHandler.bind(this);
-        this.changeIdHandler = this.changeIdHandler.bind(this);
+        // this.changeIdHandler = this.changeIdHandler.bind(this);
         this.changeNameHandler = this.changeNameHandler.bind(this);
         this.changeApellidosHandler = this.changeApellidosHandler.bind(this);
         this.changeDireccionHandler = this.changeDireccionHandler.bind(this);
@@ -35,7 +35,7 @@ class CreateClientComponent extends Component {
 
     saveClient(e) {
         e.preventDefault();
-        let cliente = {rfc:this.state.rfc, id:this.state.id, nombre: this.state.nombre, apellidos: this.state.apellidos, direccion: this.state.direccion, correo_electronico: this.state.email, no_telefono: this.state.telefono, estatus: this.state.estatus, pin: this.state.pin};
+        let cliente = {rfc:this.state.rfc, nombre: this.state.nombre, apellidos: this.state.apellidos, direccion: this.state.direccion, correo_electronico: this.state.email, no_telefono: this.state.telefono, estatus: this.state.estatus, pin: this.state.pin};
         console.log('Cliente => ' + JSON.stringify(cliente));
 
         ClientService.create(cliente).then(res => {
@@ -47,9 +47,9 @@ class CreateClientComponent extends Component {
         this.setState({rfc: ev.target.value});
     }
 
-    changeIdHandler = (ev) => {
-        this.setState({id: ev.target.value});
-    }
+    // changeIdHandler = (ev) => {
+    //     this.setState({id: ev.target.value});
+    // }
 
     changeNameHandler = (ev) => {
         this.setState({nombre: ev.target.value});
@@ -96,10 +96,10 @@ class CreateClientComponent extends Component {
                                         <label>RFC: </label>
                                         <input placeholder="RFC" name="rfc" className="form-control" value={this.state.rfc}type="text" onChange={this.changeRfcHandler}></input>
                                     </div>
-                                <div className="form-group">
+                                {/* <div className="form-group">
                                         <label>ID: </label>
                                         <input placeholder="ID" name="id" className="form-control" value={this.state.id}type="text" onChange={this.changeIdHandler}></input>
-                                    </div>
+                                    </div> */}
                                     <div className="form-group">
                                         <label>Nombre: </label>
                                         <input placeholder="Nombre" name="nombre" className="form-control" value={this.state.nombre}type="text" onChange={this.changeNameHandler}></input>
@@ -128,7 +128,6 @@ class CreateClientComponent extends Component {
                                         <label>PIN: </label>
                                         <input placeholder="PIN" name="pin" className="form-control" value={this.state.pin}type="text" onChange={this.changePinHandler}></input>
                                     </div>
-                                    
                                     <br></br>
                                     <button className="btn btn-success" onClick={this.saveClient}>Guardar</button>
                                     <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Cancel</button>

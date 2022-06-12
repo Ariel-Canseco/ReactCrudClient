@@ -52,7 +52,7 @@ class ClientComponent extends React.Component {
                             <th>Apellido Materno</th>
                             <th>RFC</th> */}
                             <th>RFC</th>
-                            <th>ID</th>
+                            {/* <th>ID</th> */}
                             <th>Nombre</th>
                             <th>Apellidos</th>
                             <th>Direccion</th>
@@ -76,7 +76,7 @@ class ClientComponent extends React.Component {
                                 //     <td>
                                 <tr key = {client.rfc}>
                                         <td>{client.rfc}</td>
-                                        <td>{client.id}</td>
+                                        {/* <td>{client.id}</td> */}
                                         <td>{client.nombre}</td>
                                         <td>{client.apellidos}</td>
                                         <td>{client.direccion}</td>
