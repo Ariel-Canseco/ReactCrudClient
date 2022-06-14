@@ -5,11 +5,6 @@ class UpdateClientComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // id: this.props.match.params.id,
-            // nombre: '',
-            // primerApellido: '',
-            // segundoApellido: '',
-            // rfc: ''
             rfc: this.props.match.params.rfc,
             // id: '',
             nombre: '',
@@ -111,12 +106,8 @@ class UpdateClientComponent extends Component {
                                 <form>
                                 <div className="form-group">
                                         <label>RFC: </label>
-                                        <input placeholder="RFC" name="rfc" className="form-control" value={this.state.rfc}type="text" onChange={this.changeRfcHandler}></input>
+                                        <input placeholder="RFC" name="rfc" className="form-control" value={this.state.rfc}type="text" onChange={this.changeRfcHandler} disabled="disabled"></input>
                                     </div>
-                                {/* <div className="form-group">
-                                        <label>ID: </label>
-                                        <input placeholder="ID" name="id" className="form-control" value={this.state.id}type="text" onChange={this.changeIdHandler}></input>
-                                    </div> */}
                                     <div className="form-group">
                                         <label>Nombre: </label>
                                         <input placeholder="Nombre" name="nombre" className="form-control" value={this.state.nombre}type="text" onChange={this.changeNameHandler}></input>

@@ -46,13 +46,7 @@ class ClientComponent extends React.Component {
                 <table className="table table-striped">
                     <thead>
                         <tr>
-                            {/* <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Apellido Paterno</th>
-                            <th>Apellido Materno</th>
-                            <th>RFC</th> */}
                             <th>RFC</th>
-                            {/* <th>ID</th> */}
                             <th>Nombre</th>
                             <th>Apellidos</th>
                             <th>Direccion</th>
@@ -67,13 +61,6 @@ class ClientComponent extends React.Component {
                         { 
                             this.state.client.map( 
                                 client => /*Poner los atributos de nuestro servicio*/
-                                // <tr key = {client.idCliente}>
-                                //     <td>{client.idCliente}</td>
-                                //     <td>{client.nombre}</td>
-                                //     <td>{client.primerApellido}</td>
-                                //     <td>{client.segundoApellido}</td>
-                                //     <td>{client.rfc}</td>
-                                //     <td>
                                 <tr key = {client.rfc}>
                                         <td>{client.rfc}</td>
                                         {/* <td>{client.id}</td> */}

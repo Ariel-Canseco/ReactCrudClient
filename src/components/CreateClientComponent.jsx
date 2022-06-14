@@ -2,15 +2,12 @@ import React, { Component } from 'react';
 import ClientService from '../components/ClientService';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+/*Regular and irregular expressions */
+//const cadenaCompRegex =RegExp(/^[A-Za-z ]+$/);
 class CreateClientComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // id: '',
-            // nombre: '',
-            // primerApellido: '',
-            // segundoApellido: '',
-            // rfc: ''
             rfc: '',
             // id: '',
             nombre: '',
@@ -19,7 +16,7 @@ class CreateClientComponent extends Component {
             email: '',
             telefono: '',
             estatus: '',
-            pin: ''
+            pin: '',
         }
         this.changeRfcHandler = this.changeRfcHandler.bind(this);
         // this.changeIdHandler = this.changeIdHandler.bind(this);
@@ -31,6 +28,7 @@ class CreateClientComponent extends Component {
         this.changeEstatusHandler = this.changeEstatusHandler.bind(this);
         this.changePinHandler = this.changePinHandler.bind(this);
         this.saveClient = this.saveClient.bind(this);
+
     }
 
     saveClient(e) {
@@ -46,10 +44,6 @@ class CreateClientComponent extends Component {
     changeRfcHandler = (ev) => {
         this.setState({rfc: ev.target.value});
     }
-
-    // changeIdHandler = (ev) => {
-    //     this.setState({id: ev.target.value});
-    // }
 
     changeNameHandler = (ev) => {
         this.setState({nombre: ev.target.value});
@@ -84,6 +78,8 @@ class CreateClientComponent extends Component {
     }
 
     render() {
+        /*Mandando a llamar a los errores */
+        //const{errores}=this.state
         return (
             <div>
                 <div className="container">
@@ -96,17 +92,30 @@ class CreateClientComponent extends Component {
                                         <label>RFC: </label>
                                         <input placeholder="RFC" name="rfc" className="form-control" value={this.state.rfc}type="text" onChange={this.changeRfcHandler}></input>
                                     </div>
-                                {/* <div className="form-group">
-                                        <label>ID: </label>
-                                        <input placeholder="ID" name="id" className="form-control" value={this.state.id}type="text" onChange={this.changeIdHandler}></input>
-                                    </div> */}
                                     <div className="form-group">
                                         <label>Nombre: </label>
-                                        <input placeholder="Nombre" name="nombre" className="form-control" value={this.state.nombre}type="text" onChange={this.changeNameHandler}></input>
+                                        <input 
+                                        placeholder="Nombre" 
+                                        name="nombre" 
+                                        className="form-control" 
+                                        value={this.state.nombre}
+                                        type="text" 
+                                        autoComplete="off" 
+                                        onChange={this.changeNameHandler}>
+                                        </input>
+                                    
                                     </div>
                                     <div className="form-group">
                                         <label>Apellidos: </label>
-                                        <input placeholder="Apellidos" name="apellidos" className="form-control" value={this.state.apellidos}type="text" onChange={this.changeApellidosHandler}></input>
+                                        <input 
+                                        placeholder="Apellidos" name="apellidos" className="form-control"
+                                        //onKeyUp = {this.handleChange}
+                                        //pattern = {cadenaCompRegex}
+                                        value={this.state.apellidos}
+                                        type="text"
+                                        autoComplete="off"
+                                        onChange={this.changeApellidosHandler}></input>
+
                                     </div>
                                     <div className="form-group">
                                         <label>Direccion: </label>
