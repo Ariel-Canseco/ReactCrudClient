@@ -3,7 +3,8 @@ import ClientService from '../components/ClientService';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 /*Regular and irregular expressions */
-//const cadenaCompRegex =RegExp(/^[A-Za-z ]+$/);
+const rfcCompRegex = RegExp(/^[A-ZÑ&]{3,4}\d{6}(?:[A-Z\d]{3})?$/);
+
 class CreateClientComponent extends Component {
     constructor(props) {
         super(props);
@@ -36,9 +37,16 @@ class CreateClientComponent extends Component {
         let cliente = {rfc:this.state.rfc, nombre: this.state.nombre, apellidos: this.state.apellidos, direccion: this.state.direccion, correo_electronico: this.state.email, no_telefono: this.state.telefono, estatus: this.state.estatus, pin: this.state.pin};
         console.log('Cliente => ' + JSON.stringify(cliente));
 
+        const rfc = cliente.rfc;
+        // eslint-disable-next-line eqeqeq
+        if(rfcCompRegex.test(rfc) && rfc != '' && cliente.nombre != '' && cliente.apellidos != '' && cliente.direccion != '' && cliente.correo_electronico != '' && cliente.no_telefono != '' && cliente.estatus != '' && cliente.pin != ''){
+            
         ClientService.create(cliente).then(res => {
             this.props.history.push('/show');
         });
+        }else{
+            alert('Debe completar todos los campos para poder agregar un cliente');
+        }
     }
 
     changeRfcHandler = (ev) => {

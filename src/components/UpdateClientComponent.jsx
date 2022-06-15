@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import ClientService from './ClientService';
 
+const cadenaCompRegex =RegExp(/^[A-Za-z ]+$/);
+
 class UpdateClientComponent extends Component {
     constructor(props) {
         super(props);
@@ -50,9 +52,17 @@ class UpdateClientComponent extends Component {
         console.log('Cliente => ' + JSON.stringify(cliente));
         console.log('RFC => ' + JSON.stringify(this.state.rfc));
 
+        const validar = cliente.rfc;
+
+        // eslint-disable-next-line eqeqeq
+        if(cadenaCompRegex.test(validar) && cliente.nombre != '' && cliente.apellidos != '' && cliente.direccion != '' && cliente.correo_electronico != '' && cliente.no_telefono != '' && cliente.estatus != '' && cliente.pin != ''){
+
         ClientService.updateClient(cliente,this.state.rfc).then(res => {
             this.props.history.push('/show');
         });
+        }else{
+            alert('Debe completar todos los campos para poder actualizar los datos');
+        }
     }
 
     changeRfcHandler = (ev) => {
