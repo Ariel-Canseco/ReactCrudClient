@@ -17,7 +17,9 @@ class ClientService{
                 'Content-Type':'application/json'
             },
             body: JSON.stringify(client)
-        }).then((res => res.json()));
+        }).then((res => res.json())
+        .catch((err) => console.error('Error: ',err))
+        .then(response => console.log('Success:', response)));
     }
     /**http://localhost:8080/api/v1/cliente/ */
     getClientByRfc(rfc){
@@ -39,7 +41,9 @@ class ClientService{
                 'Content-Type':'application/json'
             },
             body: JSON.stringify(client,rfc)
-        }).then((res => res.json()));
+        }).then((res => res.json())
+        .catch((err) => console.error('Error: ',err))
+        .then(response => console.log('Success:', response)));
     }
 
     delete(rfc){
