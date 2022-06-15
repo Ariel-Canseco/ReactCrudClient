@@ -1,5 +1,5 @@
 class ClientService{
-    show(){ /*https://client-development.herokuapp.com/api/cliente/ http://localhost:8080/api/v1/cliente/show https://desarrollo-software-123.herokuapp.com/api/v1/cliente/show*/
+    show(){
         return fetch('https://client-development.herokuapp.com/api/cliente/',{ /*Cambiar enlaces*/
             method:'GET',
             headers: {
@@ -23,7 +23,7 @@ class ClientService{
     }
     /**http://localhost:8080/api/v1/cliente/ */
     getClientByRfc(rfc){
-        //console.log(id);
+        //console.log(rfc);
         return fetch('https://client-development.herokuapp.com/api/cliente/'+ rfc,{
             method:'GET',
             headers: {
@@ -57,35 +57,4 @@ class ClientService{
     }
 }
 
-// const _put = (url,payload,fnExito,fnFallo) =>{
-//     fetch(url,{
-//         method: 'PUT',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body:JSON.stringify(payload)
-//     })
-//     .then((resp)=> resp.json())
-//     .then(fnExito)
-//     .catch(fnFallo);
-// };
-
-// async function deleteData(ID){
-//     URI = 'http://localhost:8080/api/v1/cliente/delete/' + ID
-//     console.log(URI)
-//     const response = await fetch(URI,{
-//         method: 'DELETE',
-//         mode: 'cors',
-//         cache: 'no-cache',
-//         credentials: 'same-origin',
-//         headers: {'Content-Type': 'application/json'
-//     },
-//         redirect: 'follow',
-//         referrerPolicy: 'no-referrer',
-//         body:{
-//             idCliente: ID
-//         }
-//     });
-//     return response.json();
-// }
 export default new ClientService();
