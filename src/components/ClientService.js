@@ -1,6 +1,6 @@
 class ClientService{
     show(){
-        return fetch('https://client-development.herokuapp.com/api/cliente/',{ /*Cambiar enlaces*/
+        return fetch('https://client-development.herokuapp.com/api/cliente/',{ 
             method:'GET',
             headers: {
                 'Accept':'application/json',
@@ -9,7 +9,7 @@ class ClientService{
         }).then((res => res.json()));
     }
 
-    create(client){ /*https://client-development.herokuapp.com/api/cliente/ */
+    create(client){ 
         return fetch('https://client-development.herokuapp.com/api/cliente/',{
             method:'POST',
             headers: {
@@ -17,13 +17,9 @@ class ClientService{
                 'Content-Type':'application/json'
             },
             body: JSON.stringify(client)
-        }).then((res => res.json())
-        .catch((err) => console.error('Error: ',err))
-        .then(response => console.log('Success:', response)));
+        }).then((res => res.json()))
     }
-    /**http://localhost:8080/api/v1/cliente/ */
     getClientByRfc(rfc){
-        //console.log(rfc);
         return fetch('https://client-development.herokuapp.com/api/cliente/'+ rfc,{
             method:'GET',
             headers: {
@@ -41,9 +37,7 @@ class ClientService{
                 'Content-Type':'application/json'
             },
             body: JSON.stringify(client,rfc)
-        }).then((res => res.json())
-        .catch((err) => console.error('Error: ',err))
-        .then(response => console.log('Success:', response)));
+        }).then((res => res.json()));
     }
 
     delete(rfc){

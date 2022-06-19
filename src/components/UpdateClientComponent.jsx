@@ -1,40 +1,115 @@
 import React, { Component } from 'react';
 import ClientService from './ClientService';
 
-const cadenaCompRegex =RegExp(/^[A-Za-z ]+$/);
+const expresiones = {
+	nombre: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, 
+	correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+	telefono: /^\d{7,14}$/, 
+    numeros: /^([0-9])*$/,
+    direccion: /^[a-zA-Z0-9\s,.#-]+$/
+}
+
+const formValid = ({formErrors, ...rest}) => {
+    let valid = true;
+
+    //Validando errores cuando esta vacio
+    Object.values(formErrors).forEach(val => {
+        val.length > 0 && (valid = false);
+    });
+
+    //Validando errores cuando esta lleno
+    Object.values(rest).forEach(val => {
+        val === null && (valid = false);
+    });
+    
+    return valid;
+    };
 
 class UpdateClientComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
             rfc: this.props.match.params.rfc,
-            // id: '',
             nombre: '',
             apellidos: '',
             direccion: '',
             email: '',
             telefono: '',
             estatus: '',
-            pin: ''
+            pin: '',
+
+            formErrors: {
+                nombre: '',
+                apellidos: '',
+                direccion: '',
+                email: '',
+                telefono: '',
+                estatus: '',
+                pin: ''
+            }
         }
-        //this.changeIdHandler = this.changeIdHandler.bind(this);
-        this.changeNameHandler = this.changeNameHandler.bind(this);
-        this.changeApellidosHandler = this.changeApellidosHandler.bind(this);
-        this.changeDireccionHandler = this.changeDireccionHandler.bind(this);
-        this.changeEmailHandler = this.changeEmailHandler.bind(this);
-        this.changeTelefonoHandler = this.changeTelefonoHandler.bind(this);
-        this.changeEstatusHandler = this.changeEstatusHandler.bind(this);
-        this.changePinHandler = this.changePinHandler.bind(this);
-        this.updateClient = this.updateClient.bind(this);
+        
     }
 
-    /*Se dispara al renderizar el component: Se hace en automatico */
+    handleSubmit = (e) => {
+        e.preventDefault();
+
+        if(formValid(this.state)){
+            console.log(`
+                --SUBMITTING--
+                Nombre: ${this.state.nombre}
+                Apellidos: ${this.state.apellidos}
+                Direccion: ${this.state.direccion}
+                Email: ${this.state.email}
+                Telefono: ${this.state.telefono}
+                Estatus: ${this.state.estatus}
+                Pin: ${this.state.pin}
+            `);
+        }else{
+            console.error('FORM INVALID - DISPLAY ERROR MESSAGE');
+        }
+    }
+
+    handleChange = e => {
+        e.preventDefault();
+        const { name, value } = e.target;
+        let formErrors = this.state.formErrors;
+
+        switch (name) {
+            
+            case 'nombre':
+                formErrors.nombre = expresiones.nombre.test(value) ? '' : 'El nombre no es valido';
+                break;
+            case 'apellidos':
+                formErrors.apellidos = expresiones.nombre.test(value) ? '' : 'El apellido no es valido';
+                break;
+            case 'direccion':
+                formErrors.direccion = expresiones.direccion.test(value) ? '' : 'La direccion no es valida';
+                break;
+            case 'email':
+                formErrors.email = expresiones.correo.test(value) ? '' : 'El correo no es valido';
+                break;
+            case 'telefono':
+                formErrors.telefono = expresiones.telefono.test(value) ? '' : 'El telefono no es valido';
+                break;
+            case 'estatus':
+                formErrors.estatus = expresiones.nombre.test(value) ? '' : 'El estatus no es valido';
+                break;
+            case 'pin':
+                formErrors.pin = expresiones.numeros.test(value) ? '' : 'El pin no es valido';
+                break;
+            default:
+                break;
+        }
+
+        this.setState({ formErrors, [name]: value }, () => console.log(this.state));
+    };
+
     componentDidMount(){
         ClientService.getClientByRfc(this.state.rfc).then((res) => {
-            let cliente = res; //res.data
+            let cliente = res;
             console.log(res);
             this.setState({
-                // id: cliente.data.id,
                 nombre: cliente.data.nombre, 
                 apellidos: cliente.data.apellidos, 
                 direccion: cliente.data.direccion, 
@@ -46,59 +121,54 @@ class UpdateClientComponent extends Component {
         });
     }
 
-    updateClient = (e) => {
-        e.preventDefault(); /*Before was email and telefono */
+    putClient = (e) => {
+        e.preventDefault();
+        const { name, value } = e.target;
+        let formErrors = this.state.formErrors;
+
+        switch (name) {
+            case 'nombre':
+                formErrors.nombre = expresiones.nombre.test(value) ? '' : 'El nombre no es valido';
+                break;
+            case 'apellidos':
+                formErrors.apellidos = expresiones.nombre.test(value) ? '' : 'El apellido no es valido';
+                break;
+            case 'direccion':
+                formErrors.direccion = expresiones.direccion.test(value) ? '' : 'La direccion no es valida';
+                break;
+            case 'email':
+                formErrors.email = expresiones.correo.test(value) ? '' : 'El correo no es valido';
+                break;
+            case 'telefono':
+                formErrors.telefono = expresiones.telefono.test(value) ? '' : 'El telefono no es valido';
+                break;
+            case 'estatus':
+                formErrors.estatus = expresiones.nombre.test(value) ? '' : 'El estatus no es valido';
+                break;
+            case 'pin':
+                formErrors.pin = expresiones.numeros.test(value) ? '' : 'El pin no es valido';
+                break;
+            default:
+                break;
+        }
+
+        this.setState({ formErrors, [name]: value }, () => console.log(this.state));
+
         let cliente = {nombre: this.state.nombre, apellidos: this.state.apellidos, direccion: this.state.direccion, correo_electronico: this.state.email, no_telefono: this.state.telefono, estatus: this.state.estatus, pin: this.state.pin};
         console.log('Cliente => ' + JSON.stringify(cliente));
         console.log('RFC => ' + JSON.stringify(this.state.rfc));
 
-        const validar = cliente.rfc;
+        if(formErrors.nombre === '' && formErrors.apellidos === '' && formErrors.direccion === '' && formErrors.email === '' && formErrors.telefono === '' && formErrors.estatus === '' && formErrors.pin === ''){
 
-        // eslint-disable-next-line eqeqeq
-        if(cadenaCompRegex.test(validar) && cliente.nombre != '' && cliente.apellidos != '' && cliente.direccion != '' && cliente.correo_electronico != '' && cliente.no_telefono != '' && cliente.estatus != '' && cliente.pin != ''){
-
-        ClientService.updateClient(cliente,this.state.rfc).then(res => {
+            ClientService.updateClient(cliente,this.state.rfc).then(res => {
             this.props.history.push('/show');
-        });
+            }).catch(err => {
+            console.log(err);
+            }
+        );
         }else{
             alert('Debe completar todos los campos para poder actualizar los datos');
         }
-    }
-
-    changeRfcHandler = (ev) => {
-        this.setState({rfc: ev.target.value});
-    }
-
-    // changeIdHandler = (ev) => {
-    //     this.setState({id: ev.target.value});
-    // }
-
-    changeNameHandler = (ev) => {
-        this.setState({nombre: ev.target.value});
-    }
-
-    changeApellidosHandler = (ev) => {
-        this.setState({apellidos: ev.target.value});
-    }
-
-    changeDireccionHandler = (ev) => {
-        this.setState({direccion: ev.target.value});
-    }
-
-    changeEmailHandler = (ev) => {
-        this.setState({email: ev.target.value});
-    }
-
-    changeTelefonoHandler = (ev) => {
-        this.setState({telefono: ev.target.value});
-    }
-    
-    changeEstatusHandler = (ev) => {
-        this.setState({estatus: ev.target.value});
-    }
-
-    changePinHandler = (ev) => {
-        this.setState({pin: ev.target.value});
     }
 
     cancel(){
@@ -106,6 +176,7 @@ class UpdateClientComponent extends Component {
     }
 
     render() {
+        const{ formErrors }=this.state
         return (
             <div>
                 <div className="container">
@@ -113,41 +184,117 @@ class UpdateClientComponent extends Component {
                         <div className="card col-md-6 offset-md-3 offset-md-3">
                             <h3 className="text-center">EDITAR CLIENTE</h3>
                             <div className="card-body">
-                                <form>
+                                <form onSubmit={this.handleSubmit} noValidate>
                                 <div className="form-group">
                                         <label>RFC: </label>
-                                        <input placeholder="RFC" name="rfc" className="form-control" value={this.state.rfc}type="text" onChange={this.changeRfcHandler} disabled="disabled"></input>
+                                        <input 
+                                        placeholder="RFC" 
+                                        name="rfc" 
+                                        className="form-control" 
+                                        value={this.state.rfc}
+                                        type="text" 
+                                        onChange={this.handleChange} disabled="disabled"></input>
+                                            
                                     </div>
                                     <div className="form-group">
                                         <label>Nombre: </label>
-                                        <input placeholder="Nombre" name="nombre" className="form-control" value={this.state.nombre}type="text" onChange={this.changeNameHandler}></input>
+                                        <input 
+                                        placeholder="Nombre" 
+                                        name="nombre" 
+                                        className="form-control" 
+                                        value={this.state.nombre}
+                                        type="text" 
+                                        noValidate
+                                        onChange={this.handleChange}></input>
+
+                                        {formErrors.nombre.length > 0 && (
+                                            <span className="errorMessage">{formErrors.nombre}</span>)}
+                                        
                                     </div>
                                     <div className="form-group">
                                         <label>Apellidos: </label>
-                                        <input placeholder="Apellidos" name="apellidos" className="form-control" value={this.state.apellidos}type="text" onChange={this.changeApellidosHandler}></input>
+                                        <input 
+                                        placeholder="Apellidos" name="apellidos" className="form-control" 
+                                        value={this.state.apellidos}
+                                        type="text" 
+                                        noValidate
+                                        onChange={this.handleChange}></input>
+                                        
+                                        {formErrors.apellidos.length > 0 && (
+                                            <span className="errorMessage">{formErrors.apellidos}</span>)}
                                     </div>
                                     <div className="form-group">
                                         <label>Direccion: </label>
-                                        <input placeholder="Direccion" name="direccion" className="form-control" value={this.state.direccion}type="text" onChange={this.changeDireccionHandler}></input>
+                                        <input 
+                                        placeholder="Direccion" name="direccion" className="form-control" 
+                                        value={this.state.direccion}
+                                        type="text" 
+                                        noValidate
+                                        onChange={this.handleChange}></input>
+
+                                        {formErrors.direccion.length > 0 && (
+                                            <span className="errorMessage">{formErrors.direccion}</span>)}
                                     </div>
                                     <div className="form-group">
                                         <label>Correo Electrónico: </label>
-                                        <input placeholder="Email" name="email" className="form-control" value={this.state.email}type="text" onChange={this.changeEmailHandler}></input>
+                                        <input 
+                                        placeholder="Email" 
+                                        name="email" 
+                                        className="form-control" 
+                                        value={this.state.email}
+                                        type="text" 
+                                        noValidate
+                                        onChange={this.handleChange}></input>
+
+                                        {formErrors.email.length > 0 && (
+                                            <span className="errorMessage">{formErrors.email}</span>)}
+
                                     </div>
                                     <div className="form-group">
                                         <label>Teléfono: </label>
-                                        <input placeholder="Teléfono" name="telefono" className="form-control" value={this.state.telefono}type="text" onChange={this.changeTelefonoHandler}></input>
+                                        <input 
+                                        placeholder="Teléfono" 
+                                        name="telefono" className="form-control" 
+                                        value={this.state.telefono}
+                                        type="text" 
+                                        noValidate
+                                        onChange={this.handleChange}></input>
+
+                                        {formErrors.telefono.length > 0 && (
+                                            <span className="errorMessage">{formErrors.telefono}</span>)}
                                     </div>
                                     <div className="form-group">
                                         <label>Estatus: </label>
-                                        <input placeholder="Estatus" name="estatus" className="form-control" value={this.state.estatus}type="text" onChange={this.changeEstatusHandler}></input>
+                                        <input 
+                                        placeholder="Estatus" 
+                                        name="estatus" 
+                                        className="form-control" 
+                                        value={this.state.estatus}
+                                        type="text" 
+                                        noValidate
+                                        onChange={this.handleChange}></input>
+
+                                        {formErrors.estatus.length > 0 && (
+                                            <span className="errorMessage">{formErrors.estatus}</span>)}
                                     </div>
+
                                     <div className="form-group">
                                         <label>PIN: </label>
-                                        <input placeholder="PIN" name="pin" className="form-control" value={this.state.pin}type="text" onChange={this.changePinHandler}></input>
+                                        <input 
+                                        placeholder="PIN" 
+                                        name="pin" 
+                                        className="form-control" 
+                                        value={this.state.pin}
+                                        type="text" 
+                                        noValidate
+                                        onChange={this.handleChange}></input>
+
+                                        {formErrors.pin.length > 0 && (
+                                            <span className="errorMessage">{formErrors.pin}</span>)}
+
                                     </div>
                                     <br></br>
-                                    <button className="btn btn-success" onClick={this.updateClient}>Guardar</button>
+                                    <button className="btn btn-success" onClick={this.putClient}>Guardar</button>
                                     <button className="btn btn-danger" onClick={this.cancel.bind(this)} style={{marginLeft: "10px"}}>Cancel</button>
                                 </form>
                             </div>

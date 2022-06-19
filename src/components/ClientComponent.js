@@ -9,14 +9,12 @@ class ClientComponent extends React.Component {
         this.state = {
             client:[]
         }
-        /*Adding new stuff*/
         this.addClient = this.addClient.bind(this);
         this.editClient = this.editClient.bind(this);
         this.deleteClient = this.deleteClient.bind(this);
     }
 
     deleteClient(rfc){
-        // rest api
         ClientService.delete(rfc).then(res => {
             this.setState({client: this.state.client.filter(client => client.rfc !== rfc)});
         });
@@ -63,7 +61,6 @@ class ClientComponent extends React.Component {
                                 client => /*Poner los atributos de nuestro servicio*/
                                 <tr key = {client.rfc}>
                                         <td>{client.rfc}</td>
-                                        {/* <td>{client.id}</td> */}
                                         <td>{client.nombre}</td>
                                         <td>{client.apellidos}</td>
                                         <td>{client.direccion}</td>
