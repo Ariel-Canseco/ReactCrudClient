@@ -12,6 +12,8 @@ class ClientComponent extends React.Component {
         this.addClient = this.addClient.bind(this);
         this.editClient = this.editClient.bind(this);
         this.deleteClient = this.deleteClient.bind(this);
+
+        this.login = this.login.bind(this);
     }
 
     deleteClient(rfc){
@@ -34,12 +36,17 @@ class ClientComponent extends React.Component {
         this.props.history.push('/add-client');
     }
 
+    login(){
+        this.props.history.push('/login');
+    }
+
     render(){
         return(
             <div>
                 <h1 className="text-center">CLIENT LIST</h1>
                 <div className="row">
                     <button className="btn btn-primary" onClick={this.addClient}>Agregar Cliente</button>
+                    <button className="btn btn-secondary" onClick={this.login}>Login</button>
                 </div>
                 <table className="table table-striped">
                     <thead>

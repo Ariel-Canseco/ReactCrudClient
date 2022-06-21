@@ -167,7 +167,7 @@ class UpdateClientComponent extends Component {
             }
         );
         }else{
-            alert('Debe completar todos los campos para poder actualizar los datos');
+            alert('Debe completar o escribir correctamente todos los campos para poder actualizar los datos');
         }
     }
 
@@ -184,7 +184,7 @@ class UpdateClientComponent extends Component {
                         <div className="card col-md-6 offset-md-3 offset-md-3">
                             <h3 className="text-center">EDITAR CLIENTE</h3>
                             <div className="card-body">
-                                <form onSubmit={this.handleSubmit} noValidate>
+                                <form>
                                 <div className="form-group">
                                         <label>RFC: </label>
                                         <input 

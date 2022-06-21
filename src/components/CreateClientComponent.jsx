@@ -89,7 +89,7 @@ class CreateClientComponent extends Component {
                 break;
             case 'apellidos':
                 formErrors.apellidos = expresiones.nombre.test(value) ? '' : 'El apellido no es valido';
-                break;
+                break; 
             case 'direccion':
                 formErrors.direccion = expresiones.direccion.test(value) ? '' : 'La direccion no es valida';
                 break;
@@ -178,7 +178,7 @@ class CreateClientComponent extends Component {
                         <div className="card col-md-6 offset-md-3 offset-md-3">
                             <h3 className="text-center">AGREGAR CLIENTE</h3>
                             <div className="card-body">
-                                <form onSubmit={this.handleSubmit} noValidate>
+                                <form >
                                 <div className="form-group">
                                         <label>RFC: </label>
                                         <input 
