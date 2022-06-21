@@ -65,7 +65,7 @@ class ClientComponent extends React.Component {
                     <tbody>
                         { 
                             this.state.client.map( 
-                                client => /*Poner los atributos de nuestro servicio*/
+                                client => 
                                 <tr key = {client.rfc}>
                                         <td>{client.rfc}</td>
                                         <td>{client.nombre}</td>

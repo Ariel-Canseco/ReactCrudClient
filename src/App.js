@@ -1,5 +1,4 @@
 import React from "react";
-
 import './App.css';
 import {BrowserRouter as Router,Route, Switch} from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -8,7 +7,7 @@ import CreateClientComponent from './components/CreateClientComponent';
 import UpdateClientComponent from './components/UpdateClientComponent';
 import Login from './components/Login';
 
-function App() { //Before was function App () {}
+function App() {
 
     return (
     <div>

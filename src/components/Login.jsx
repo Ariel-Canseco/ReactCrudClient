@@ -8,33 +8,10 @@ class Login extends React.Component {
         this.state = {
             usernameOrEmail:"",
             password:"",
-
-            body:{
-                usernameOrEmail: "",
-                password: ""
-            }
         }
 
         this.login = this.login.bind(this);
     }
-
-    handleInputChange (event) {
-        event.preventDefault();
-        const { name, value } = event.target;
-        let body = this.state.body;
-
-        switch(name){
-            case "usernameOrEmail":
-                body.usernameOrEmail = value;
-                break;
-            case "password":
-                body.password = value;
-                break;
-            default:
-                break;
-        }
-        this.setState({ body, [name]: value }, () => console.log(this.state));;
-    };
 
     changeEmailUserHandler = (ev) => {
         this.setState({usernameOrEmail: ev.target.value});
@@ -44,12 +21,9 @@ class Login extends React.Component {
         this.setState({password: ev.target.value});
     }
 
-
     login = () => {
         const token = localStorage.getItem('jwt')
-        // console.log(body)
-        // Fetch(Host.auth.login, "POST", body)
-        fetch('https://autenticacion-t.herokuapp.com/login/auth/user', {
+        fetch('https://autenticacion-p.herokuapp.com/login/auth/user', {
         method: "POST",
         mode: "cors",
         cache: "no-cache",
@@ -72,7 +46,7 @@ class Login extends React.Component {
         if(JSON.stringify(j).includes("data")){
             console.log(j.data)
             localStorage.setItem('jwt', j.data)
-            localStorage.setItem('user', this.body.usernameOrEmail)
+            localStorage.setItem('user', this.state.usernameOrEmail)
             
             console.log('Se ha guardado el jwt')
         }else{
